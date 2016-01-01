@@ -1,0 +1,42 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+#include <map>
+using namespace std;
+
+class edge;
+class gNode
+{
+    public:
+        gNode(int key): visited(false),key(key){}
+        int key;
+        bool visited;
+        vector<edge *> edges;
+};
+class edge
+{
+    public:
+        edge(gNode * adj, long length):adj(adj), length(length){}
+        gNode * adj;
+        long length;
+};
+class graph
+{
+    public:
+        map
+}
+
+int main() 
+{
+    int nodeAm = 0;
+    int edgeAm = 0;
+    cin >> nodeAm >> edgeAm;
+    for(i = 1; i <= nodeAm; i++)
+    {
+        
+    }
+    return 0;
+}
+

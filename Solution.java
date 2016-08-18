@@ -8,46 +8,51 @@ public class Solution {
 
     public static void main(String[] args)
     {
+        int n = 0;
         Scanner getStuff = new Scanner(System.in);
-        int t = getStuff.nextInt();
-        int count = 0;
-        while(count < t)
+        n = getStuff.nextInt();
+        int arr [n];
+        for(int i = 0; i < n; i++)
         {
-            int N = getStuff.nextInt();
-            BigInteger M = getStuff.nextBigInteger();
-            BigInteger [] vals = new BigInteger[N];
-            BigInteger [] maxs = new BigInteger[N];
-            BigInteger ultMax = BigInteger.ZERO;
-            for(int i = 0; i < N; i++)
+            arr[i] = getStuff.nextInt();
+        }
+        ArrayList al = new ArrayList();
+        for(int i = 0; i < n; i++)
+        {
+            if(!(al.contains(arr[i])))
             {
-                vals[i] = getStuff.nextBigInteger();
-            }
-            for(int i = 0; i < N; i++)
+                al.add(arr[i]);
+            }   
+        }
+        int size = al.size();
+        int uq [size];
+        uq = (int)al.toArray();
+        int counts[size];
+        for(int i = 0; i < size; i++)
+        {
+            int count = 0;
+            for(int j = 0; j < n; j++)
             {
-                maxs[i] = getMax(vals, i, M);
-                if(maxs[i].compareTo(ultMax) == 1)
+                if(uq[i] = arr[j])
                 {
-                    ultMax = maxs[i];
+                    count++;
                 }
             }
-            System.out.println(ultMax);
-            count++;
+            counts[i] = count;
         }
-    }
-    public static BigInteger getMax(BigInteger [] vals, int start, BigInteger
-    modder)
-    {
-        int size = vals.length;
-        BigInteger max = BigInteger.ZERO;
-        BigInteger total = BigInteger.ZERO;
-        for(int i = start; i < size; i++)
+        List<BigInteger> list  = new ArrayList<BigInteger>();
+        for(int i = 0; i < size; i++)
         {
-            total = (total.add((vals[i].mod(modder)))).mod(modder);
-            if(total.compareTo(max) == 1)
+            if(counts[i] > 1)
             {
-                max = total;
+                list.add(new BigInteger("" + counts[i] + ""));
             }
         }
-        return max;
+        int lSize = list.size();
+        for(int i = 0; i < lSize
+    }
+    public static BigInteger factorial(BigInteger curr)
+    {
+        return curr.multiply(factorial(curr.subtract(new BigInteger("1"))));
     }
 }

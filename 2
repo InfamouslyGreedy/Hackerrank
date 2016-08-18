@@ -1,0 +1,42 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+
+int main() {
+    int t = 0;
+    cin >> t;
+    while(t--)
+    {
+        int d = 0, k = 0;
+        cin >> d >> k;
+        int x = 0, y = 0;
+        int res = 4;
+        if(d % 2 == 0)
+           x = y =  d/2;
+        else
+        {
+            x = d/2;
+            y = x + 1;
+        }
+        while(x != 0 && y != 0)
+        {
+            double xt = sqrt(x);
+            double yt = sqrt(y);
+            if((int)xt == xt)
+            {
+                res += 4;
+            }
+            x--;
+            y++;
+
+        }
+
+
+
+    }
+    return 0;
+}

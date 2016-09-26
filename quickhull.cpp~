@@ -15,45 +15,11 @@ class Point
         Point(){}
 };
 vector < Point > hull;
-int ori(Point p1, Point p2, Point p3)
+double detArea(Point p1, Point p2, Point p3)
 {
-    double test = ((p2.y - p1.y) * (p3.x - p2.x)) - ((p3.y - p2.y) * (p2.x - p1.x));
-    if(test > 0)
-        return 1;
-    else if (test < 0)
-        return -1;
-    else 
-        return 0;
+    return (p2.x - p1.x) * (p3.y - p1.y) - (p2.y - p1.y) * (p3.x - p1.x);
 }
-double getSlope(Point a, Point b, bool & vert)
-{
-    if(a.x == b.x)
-    {
-        vert = true;
-        return 0;
-    }
-    else    
-        return (double)(b.y - a.y)/(double)(b.x - a.x);    
-}
-double getDist(Point a, Point b, Point c)
-{
-    bool vert = false;
-    double m = getSlope(a,b,vert);
-    if(vert)    
-        return abs(a.x - c.x);    
-    else if(m == 0)
-        return abs(a.y - c.y);
-    else
-    {
-        double m2 = ((double)1/m) * -1;
-        double c1 = a.y  - (m * a.x);
-        double c2 = c.y - (m2 * c.x);
-        double xInt = (c2 - c1)/(m - m2);
-        double yInt = (m * a.x) + c1;
-        return sqrt(pow(yInt - c.y, 2) + pow(xInt - c.x, 2));
-    }
-}
-void findHull(Point a, Point b, vector < Point > s)
+void findHull(Point a, Point b, vector < pair< Point, double >  > s)
 {
     int size = s.size();
     if(size == 0)
@@ -62,22 +28,23 @@ void findHull(Point a, Point b, vector < Point > s)
     Point nHull;
     for(int i = 0; i < size; i++)
     {
-        double dist = getDist(a,b,s[i]);
-        if(dist > maxDist)
+        if(s[i].second > maxDist)
         {
-            maxDist = dist;
-            nHull = s[i];
+            maxDist = s[i].second;
+            nHull = s[i].first;
         }
     }
     hull.push_back(nHull);
-    vector< Point > s1;
-    vector< Point > s2;
+    vector< pair<Point, double> > s1;
+    vector< pair<Point, double> > s2;
     for(int i = 0; i < size; i++)
     {
-        if(ori(nHull, a, s[i]) > 0)
-            s1.push_back(s[i]);
-        if(ori(b,nHull,s[i]) > 0)
-            s2.push_back(s[i]);
+        int area = detArea(a, nHull, s[i].first);
+        if(area > 0)
+            s1.push_back(make_pair(s[i].first, area));
+        area = detArea(nHull, b, s[i].first);
+        if(area > 0)
+            s2.push_back(make_pair(s[i].first,area));
     }
     findHull(a,nHull, s1);
     findHull(nHull,b,s2);
@@ -104,14 +71,16 @@ void quickHull(Point points[], int n)
     hull.push_back(xMax);
     hull.push_back(xMin);
 
-    vector <Point> s1;
-    vector <Point> s2;
+    vector < pair< Point, double > > s1;
+    vector < pair< Point, double > > s2;
     for(int i = 0; i < n; i++)
     {
-        if(ori(xMax, xMin, points[i]) > 0)
-            s1.push_back(points[i]);
-        if(ori(xMin, xMax, points[i]) > 0)
-            s2.push_back(points[i]);
+        double a = detArea(xMin, xMax, points[i])
+        if(a > 0)
+            s1.push_back(make_pair(points[i],a));
+        a = detArea(xMax, xMin, points[i]);
+        if(a > 0)
+            s2.push_back(make_pair(points[i],a));
     }
     findHull(xMin, xMax, s1);
     findHull(xMax, xMin, s2);

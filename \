@@ -27,7 +27,7 @@ void getPrimes(vector<int> & primes, int end)
 int main()
 {
     vector<int>primes;
-    getPrimes(primes, 1200);
+    getPrimes(primes, 100);
     int n = 0, q = 0;
     cin >> n >> q;
     stack <int> s[q + 1];
@@ -48,26 +48,24 @@ int main()
             if((i - 1) < size && ((val % primes[i - 1]) == 0))
             {
                 s[i].push(val); 
+                cerr << " pushing val " << val << " in b[" << i << "]" << endl;
             }
             else
             {
                 temp.push(val);
+                cerr << " pushing val " << val << " in a[" << i << "]" << endl;
             }
         }
         s[0] = temp;
     }
-    for(int i = 1; i < (q + 1); i++)
+    cout << " Done with the current loop " << endl;
+    for(int i = q; i >= 0; i++)
     {
         while(!s[i].empty())
         {
             cout << s[i].top() << endl;
             s[i].pop();
         }
-    }
-    while(!s[0].empty())
-    {
-        cout << s[0].top() << endl;
-        s[0].pop();
     }
     return 0;
 }
